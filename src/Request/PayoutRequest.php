@@ -10,6 +10,7 @@ use Skrill\ValueObject\Description;
 use Skrill\ValueObject\TransactionID;
 use Skrill\Request\Traits\GetPayloadTrait;
 use Skrill\Request\Traits\AmountFormatterTrait;
+use Skrill\ValueObject\Url;
 
 /**
  * Class PayoutRequest.
@@ -73,6 +74,25 @@ final class PayoutRequest
     {
         $this->payload['mb_transaction_id'] = strval($transactionId);
 
+        return $this;
+    }
+
+    /**
+     * @param Url $url
+     *
+     * @return $this
+     */
+    public function setStatusUrl(Url $url): self
+    {
+        $this->payload['status_url'] = strval($url);
+
+        return $this;
+    }
+
+    public function setMerchantFields(array $field)
+    {
+        $this->payload['merchant_fields'] = key($field);
+        $this->payload[key($field)] = current($field);
         return $this;
     }
 }
